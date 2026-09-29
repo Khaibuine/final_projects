@@ -49,8 +49,8 @@ mysql -u root -p -e "SELECT (SELECT COUNT(*) FROM information_schema.tables WHER
 Database mới tạo đang trống. Cần ít nhất 1 bộ môn, 1 GV, 1 Trưởng khoa để form "Tạo đợt" hoạt động:
 
 ```sql
-INSERT INTO BO_MON (Ma_Bo_Mon, Ten_Bo_Mon) VALUES ('CNPM', 'Cong nghe phan mem');
-INSERT INTO GV (Ma_GV, Ho_Ten, Email, Ma_Bo_Mon) VALUES ('GV01', 'Nguyen Van A', 'a@hutech.edu.vn', 'CNPM');
+INSERT INTO BO_MON (Ma_Bo_Mon, Ten_Bo_Mon) VALUES ('ATTT', 'An Toan Thong Tin');
+INSERT INTO GV (Ma_GV, Ho_Ten, Email, Ma_Bo_Mon) VALUES ('GV01', 'Nguyen Van A', 'a@hcmute.edu.vn', 'ATTT');
 INSERT INTO TRUONG_KHOA (Ma_GV) VALUES ('GV01');
 ```
 
