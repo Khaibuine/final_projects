@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::title}, ~{::main})}">
+<head>
+  <title th:text="${tieuDe}">Tổng quan</title>
+</head>
+<body>
+  <main>
+    <h1 class="h3 text-primary" th:text="${tieuDe}">Tiêu đề</h1>
+    <p class="lead">Layout dùng chung đã hoạt động.</p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::title}, ~{::main})}">
+<head>
+  <title>Quản lý đợt đăng ký</title>
+</head>
+<body>
+  <main>
+    <h1 class="h3 text-primary mb-4">Quản lý đợt đăng ký</h1>
+
+    <div th:if="${thanhCong}" class="alert alert-success" th:text="${thanhCong}"></div>
+    <div th:if="${loi}" class="alert alert-danger">
+      <ul class="mb-0">
+        <li th:each="l : ${loi}" th:text="${l}"></li>
+      </ul>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-header fw-bold">Danh sách đợt</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 bg-white align-middle">
+          <thead>
+            <tr>
+              <th>Mã đợt</th><th>Tên đợt</th><th>Loại</th>
+              <th>GV đăng ký</th><th>SV đăng ký</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="d : ${dsDot}">
+              <td th:text="${d.maDot}"></td>
+              <td th:text="${d.tenDotDangKy}"></td>
+              <td><span class="badge bg-secondary" th:text="${d.loai}"></span></td>
+              <td>
+                <span th:text="${#temporals.format(d.beginGV,'dd/MM HH:mm')}"></span> -
+                <span th:text="${#temporals.format(d.endGV,'dd/MM HH:mm')}"></span>
+              </td>
+              <td>
+                <span th:text="${#temporals.format(d.beginSV,'dd/MM HH:mm')}"></span> -
+                <span th:text="${#temporals.format(d.endSV,'dd/MM HH:mm')}"></span>
+              </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(dsDot)}"><td colspan="5" class="text-muted">Chưa có đợt nào.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header fw-bold">Tạo đợt mới</div>
+      <div class="card-body">
+        <form th:action="@{/truong-khoa/dot}" th:object="${form}" method="post" class="row g-3" id="formDot">
+
+          <div class="col-md-3">
+            <label class="form-label">Mã đợt</label>
+            <input type="text" class="form-control" th:field="*{maDot}" placeholder="DOT01" required>
+          </div>
+          <div class="col-md-5">
+            <label class="form-label">Tên đợt</label>
+            <input type="text" class="form-control" th:field="*{tenDotDangKy}" required>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Trưởng khoa tạo đợt</label>
+            <select class="form-select" th:field="*{maTruongKhoa}" required>
+              <option value="">-- Chọn --</option>
+              <option th:each="tk : ${dsTruongKhoa}" th:value="${tk.maGV}" th:text="${tk.hoTen} + ' (' + ${tk.maGV} + ')'"></option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Loại đợt</label>
+            <select class="form-select" th:field="*{loai}" id="loai" required>
+              <option value="">-- Chọn --</option>
+              <option value="MonHoc">Môn học</option>
+              <option value="NCKH">NCKH</option>
+              <option value="TLCN">TLCN</option>
+              <option value="KLTN">KLTN</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">GV đăng ký: từ</label>
+            <input type="datetime-local" class="form-control" th:field="*{beginGV}" required>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">đến</label>
+            <input type="datetime-local" class="form-control" th:field="*{endGV}" required>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">SV đăng ký: từ</label>
+            <input type="datetime-local" class="form-control" th:field="*{beginSV}" required>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">đến</label>
+            <input type="datetime-local" class="form-control" th:field="*{endSV}" required>
+          </div>
+
+          <div class="col-md-4 truong-tlcn-kltn" style="display:none;">
+            <label class="form-label">Hạn chót GVPB nộp điểm</label>
+            <input type="datetime-local" class="form-control" th:field="*{deadlineGvpbNopDiem}">
+          </div>
+          <div class="col-md-4 truong-kltn" style="display:none;">
+            <label class="form-label">Ngày báo cáo hội đồng</label>
+            <input type="datetime-local" class="form-control" th:field="*{timeBcHd}">
+          </div>
+
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary">Tạo đợt</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script th:inline="javascript">
+    const select = document.getElementById('loai');
+    function capNhatHienThi() {
+      const loai = select.value;
+      document.querySelectorAll('.truong-tlcn-kltn').forEach(el => el.style.display = (loai === 'TLCN' || loai === 'KLTN') ? '' : 'none');
+      document.querySelectorAll('.truong-kltn').forEach(el => el.style.display = (loai === 'KLTN') ? '' : 'none');
+    }
+    select.addEventListener('change', capNhatHienThi);
+    capNhatHienThi();
+  </script>
+</body>
+</html>

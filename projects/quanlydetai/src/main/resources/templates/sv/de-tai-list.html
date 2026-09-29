@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::title}, ~{::main})}">
+<head>
+  <title>Danh sách đề tài</title>
+</head>
+<body>
+  <main>
+    <h1 class="h3 text-primary mb-4">Danh sách đề tài đã công bố</h1>
+
+    <div th:if="${#lists.isEmpty(dsDeTai)}" class="alert alert-info">
+      Hiện chưa có đề tài nào đang mở để đăng ký.
+    </div>
+
+    <div class="table-responsive" th:unless="${#lists.isEmpty(dsDeTai)}">
+      <table class="table table-hover bg-white align-middle">
+        <thead>
+          <tr>
+            <th>Mã đề tài</th>
+            <th>Tên đề tài</th>
+            <th>Bộ môn</th>
+            <th>Ngày đăng ký</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="dt : ${dsDeTai}">
+            <td th:text="${dt.maDeTai}">DT01</td>
+            <td th:text="${dt.tenDeTai}">Tên đề tài</td>
+            <td th:text="${dt.boMon?.tenBoMon}">Bộ môn</td>
+            <td th:text="${#temporals.format(dt.ngayDangKy, 'dd/MM/yyyy')}">01/01/2026</td>
+            <td><a href="#" class="btn btn-sm btn-outline-primary">Xem chi tiết</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>

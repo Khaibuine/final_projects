@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<nav th:fragment="sidebar" class="sidebar bg-dark text-white p-3">
+  <a th:href="@{/}" class="d-block text-white text-decoration-none fs-5 mb-4">
+    <i class="bi bi-mortarboard-fill me-2"></i>Quản lý đề tài
+  </a>
+  <ul class="nav nav-pills flex-column gap-1">
+    <li class="nav-item"><a class="nav-link text-white" th:href="@{/}"><i class="bi bi-house me-2"></i>Tổng quan</a></li>
+
+    <li class="nav-item" sec:authorize="hasRole('SV')">
+      <a class="nav-link text-white" th:href="@{/de-tai}"><i class="bi bi-journal-text me-2"></i>Danh sách đề tài</a>
+    </li>
+    <li class="nav-item" sec:authorize="hasRole('SV')">
+      <a class="nav-link text-white" href="#"><i class="bi bi-people me-2"></i>Nhóm của tôi</a>
+    </li>
+
+    <li class="nav-item" sec:authorize="hasRole('GV')">
+      <a class="nav-link text-white" href="#"><i class="bi bi-journal-plus me-2"></i>Đề xuất đề tài</a>
+    </li>
+    <li class="nav-item" sec:authorize="hasRole('GV')">
+      <a class="nav-link text-white" href="#"><i class="bi bi-clipboard-check me-2"></i>Chấm điểm</a>
+    </li>
+
+    <li class="nav-item" sec:authorize="hasRole('TRUONGKHOA')">
+      <a class="nav-link text-white" th:href="@{/truong-khoa/dot}"><i class="bi bi-calendar-event me-2"></i>Quản lý đợt</a>
+    </li>
+    <li class="nav-item" sec:authorize="hasRole('TRUONGKHOA')">
+      <a class="nav-link text-white" href="#"><i class="bi bi-check2-square me-2"></i>Duyệt &amp; công bố</a>
+    </li>
+
+    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+      <a class="nav-link text-white" href="#"><i class="bi bi-people-fill me-2"></i>Quản lý tài khoản</a>
+    </li>
+
+    <li class="nav-item"><a class="nav-link text-white" href="#"><i class="bi bi-bell me-2"></i>Thông báo</a></li>
+  </ul>
+</nav>
+
+<header th:fragment="topbar" class="topbar bg-white border-bottom px-4 py-2 d-flex justify-content-between align-items-center">
+  <span class="text-muted">Hệ thống quản lý đề tài sinh viên</span>
+  <span>
+    <i class="bi bi-person-circle me-1"></i>
+    <span sec:authentication="name">Người dùng</span>
+    <form th:action="@{/logout}" method="post" class="d-inline ms-2">
+      <button type="submit" class="btn btn-sm btn-outline-secondary">Đăng xuất</button>
+    </form>
+  </span>
+</header>
+
+</body>
+</html>
